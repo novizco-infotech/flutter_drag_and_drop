@@ -16,7 +16,7 @@ class Xcontainer extends StatelessWidget {
                     ),
                    
                     margin: EdgeInsets.all(10),
-                    width: 300,
+                    width: 305,
                     height: 500,
                     decoration: BoxDecoration(
                         color: Colors.white,

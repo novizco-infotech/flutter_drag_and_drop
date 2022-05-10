@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
       DragableListItems(tittle: 'Apricot'),
       DragableListItems(tittle: 'Almond'),
       DragableListItems(tittle: 'Dates'),
-       DragableListItems(tittle: 'Ashwenut'),
+       DragableListItems(tittle: 'Cashewnut'),
     ])
   ];
 

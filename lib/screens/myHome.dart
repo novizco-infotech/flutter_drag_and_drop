@@ -1,76 +1,102 @@
-
-import 'package:draganddrop1/widgets/xcontainer.dart';
+import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
+import 'package:draganddrop1/model/dragable_list.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<DragableList> allList = [
+    DragableList(header: 'Fruits', items: [
+      DragableListItems(tittle: 'Apple'),
+      DragableListItems(tittle: 'Banana'),
+      DragableListItems(tittle: 'Apricot'),
+      DragableListItems(tittle: 'Grape')
+    ]),
+    DragableList(header: 'Vegitables', items: [
+      DragableListItems(tittle: 'Tomato'),
+      DragableListItems(tittle: 'potato'),
+      DragableListItems(tittle: 'Brinjal'),
+      DragableListItems(tittle: 'cucumber'),
+    ]),
+    DragableList(header: 'Dry Fruits', items: [
+      DragableListItems(tittle: 'Apricot'),
+      DragableListItems(tittle: 'Almond'),
+      DragableListItems(tittle: 'Dates'),
+       DragableListItems(tittle: 'Ashwenut'),
+    ])
+  ];
+
+  late List<DragAndDropList> list;
+
+  @override
+  void initState() {
+    super.initState();
+    list = allList.map(buildList).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Drag And Drop'),
-        centerTitle: true,
-      ),
-      body: Container(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 800,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Container(
-                    child: Column(
-                      children: [
-                         ListTile(
-                        title: Text('Block 1'),
-                        trailing:
-                            IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                      ),
-                     Draggable(
-                       feedback: buildwidget(context,Colors.red),
-                       child: buildwidget(context,Colors.red),
-                       childWhenDragging: Container(),
-                       )
-                      ],
-                    ),
-                    margin: EdgeInsets.all(10),
-                    width: 300,
-                    height: 500,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(width: 1, color: Colors.grey)),
-                  ),
-                  Xcontainer(title: 'Block 2',child:Container(
-                    margin: EdgeInsets.all(10),
-                       width: MediaQuery.of(context).size.width,
-                       height: 50,
-                       decoration: BoxDecoration(
-                         color: Colors.black,
-                         borderRadius: BorderRadius.circular(20)
-                       ),
-                     )),
-                  // Xcontainer('Block 3')
-                ],
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          title: Text('Drag And Drop'),
+          centerTitle: true,
         ),
-      )),
-    );
+        body:  Container(
+          width: 1000,
+          
+          child: DragAndDropLists(
+          
+              
+              // addLastItemTargetHeightToTop: true,
+              axis: Axis.horizontal,
+              listWidth: 150,
+              listDraggingWidth: 150,
+              lastItemTargetHeight: 5,
+              itemDecorationWhileDragging: BoxDecoration(color: Colors.cyan),
+              itemDivider: Divider(
+                color: Colors.grey,
+                thickness: 2,
+                height: 5,
+              ),
+              listPadding: EdgeInsets.all(10),
+              listInnerDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(255, 115, 143, 146)),
+              children: list,
+              onItemReorder: onReorderListItems,
+              onListReorder: onReorderList,
+            ),
+        ),
+        );
   }
-}
-Widget buildwidget(BuildContext context,  Color color){
-  return  Container(
-                    margin: EdgeInsets.all(10),
-                       width: MediaQuery.of(context).size.width,
-                       height: 50,
-                       decoration: BoxDecoration(
-                         color: color,
-                         borderRadius: BorderRadius.circular(20)
-                       ),
-                     );
+
+  DragAndDropList buildList(DragableList list) => DragAndDropList(
+      children: list.items
+          .map((item) => DragAndDropItem(
+                  child: ListTile(
+                title: Center(child: Text(item.tittle)),
+              )))
+          .toList(),
+      header: Container(padding: EdgeInsets.all(8), child: Text(list.header)));
+
+
+  void onReorderListItems(
+      int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+    setState(() {
+      final oldListItems = list[oldItemIndex].children;
+      final newListitems = list[newListIndex].children;
+      final movedItem = oldListItems.removeAt(oldItemIndex);
+      newListitems.insert(newItemIndex, movedItem);
+    });
+  }
+
+  void onReorderList(int oldListIndex, int newListIndex) {
+    setState(() {
+      final movedlist=list.removeAt(oldListIndex);
+      list.insert(newListIndex, movedlist);
+    });
+  }
 }

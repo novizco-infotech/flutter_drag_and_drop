@@ -8,5 +8,7 @@ class DragableList{
 class DragableListItems{
   final String tittle;
   final Color color;
-  DragableListItems({required this.tittle,required this.color});
+  final String imageUrl;
+
+  DragableListItems({required this.tittle,required this.color,required this.imageUrl});
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class DragableList{
   final String header;
   final List<DragableListItems>items;
@@ -5,5 +7,6 @@ class DragableList{
 }
 class DragableListItems{
   final String tittle;
-  DragableListItems({required this.tittle});
+  final Color color;
+  DragableListItems({required this.tittle,required this.color});
 }

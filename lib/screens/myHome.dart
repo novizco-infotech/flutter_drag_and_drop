@@ -58,17 +58,37 @@ class _MyHomePageState extends State<MyHomePage> {
  
           
           child: DragAndDropLists(
-            addLastItemTargetHeightToTop: true,
+            addLastItemTargetHeightToTop: false,
+            
             axis: Axis.horizontal,
             listWidth: 160,
             listDraggingWidth: 160,
-            lastItemTargetHeight: 5,
-           // itemDecorationWhileDragging: const BoxDecoration(color: Colors.cyan),
+            lastItemTargetHeight: 50,
+          //  itemDecorationWhileDragging: const BoxDecoration(color: Colors.cyan),
             // itemDivider: const Divider(
             //   color: Colors.grey,
             //   thickness: 2,
-            //   height: 5,
+          
             // ),
+        //      listDragHandle: const DragHandle(
+        //   verticalAlignment: DragHandleVerticalAlignment.top,
+        //   child: Padding(
+        //     padding: EdgeInsets.only(right: 10),
+        //     child: Icon(
+        //       Icons.menu,
+        //       color: Colors.black26,
+        //     ),
+        //   ),
+        // ),
+            
+//  itemDragHandle: const DragHandle(
+//           child: Padding(
+//             padding: EdgeInsets.only(right: 10),
+//             child: Icon(
+//               Icons.menu,
+//               color: Colors.blueGrey,
+//             ),)),
+            
             listPadding: const EdgeInsets.all(10),
             listInnerDecoration: const BoxDecoration(
                 // borderRadius: BorderRadius.circular(20),
@@ -83,6 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   DragAndDropList buildList(DragableList list) => DragAndDropList(
+    canDrag: false, //when we give it's true then we can drag the either list.
+     lastTarget: Container(height: 300,),
       children: list.items
           .map((item) => DragAndDropItem(
                   child: SizedBox(
@@ -90,18 +112,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 child:
                 Column(
                   children: 
-                    [Container(
-                      width: 200,
-                       height: 100,
-                      decoration: BoxDecoration(
-                        color: item.color,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          width: 1
-                        )
+                    [
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.all(10),
+                        width: 200,
+                         height: 100,
+                        decoration: BoxDecoration(
+                          color: item.color,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            width: 1
+                          )
+                        ),
+                         child: ListTile(
+                          
+                           title: Center(child: Text(item.tittle))),
+                                          ),
                       ),
-                       child: Center(child: Text(item.tittle)),
-                    ),
                   ],
                 ),
               )))
@@ -111,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Container(
           width: 150,
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 115, 143, 146),
+            color: const Color.fromARGB(255, 115, 143, 146),
             borderRadius: BorderRadius.circular(10)
             ,border: Border.all(
               width: 1
@@ -124,10 +152,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void onReorderListItems(
       int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
     setState(() {
-      final oldListItems = list[oldItemIndex].children;
-      final newListitems = list[newListIndex].children;
-      final movedItem = oldListItems.removeAt(oldItemIndex);
-      newListitems.insert(newItemIndex, movedItem);
+     var movedItem = list[oldListIndex].children.removeAt(oldItemIndex);
+      list[newListIndex].children.insert(newItemIndex, movedItem);;
     });
   }
 

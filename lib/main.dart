@@ -1,6 +1,6 @@
 
-import 'package:draganddrop1/model/draggableList.dart';
-import 'package:draganddrop1/provider/DragCard.dart';
+import 'package:draganddrop1/provider/draggableList.dart';
+
 import 'package:draganddrop1/screens/myHome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

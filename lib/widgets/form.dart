@@ -3,9 +3,12 @@
 
 
 import 'package:draganddrop1/model/ListModel.dart';
+import 'package:draganddrop1/model/dragList.dart';
 import 'package:draganddrop1/provider/DragCard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../model/draggableList.dart';
 
 
 
@@ -23,8 +26,8 @@ class _FormFieldDataState extends State<FormFieldData> {
   final DateFocasNode = FocusNode();
   final descriptionFocusNode = FocusNode();
   final form = GlobalKey<FormState>();
-  var editListData =
-      ListModel(name: '', Description: '', job: '');
+  // var editListData =
+  //     ListModel(name: '', Description: '', job: '');
   @override
   void dispose() {
     DateFocasNode.dispose();
@@ -35,8 +38,12 @@ class _FormFieldDataState extends State<FormFieldData> {
 
   void saveForm() {
     form.currentState!.save();
-    print(editListData.name);
-   final card1= Provider.of<DragCard>(context,listen: false).AddCard(editListData);
+    // print(editListData.name);
+    final name=NameController.text;
+    final des=DescriptionController.text;
+    final job=DateController.text;
+  //  final card1= Provider.of<DragCard>(context,listen: false).AddProduct(editListData);
+  Provider.of<DataProvider>(context,listen: false).addProduct(name, des, job);
   }
 
   @override
@@ -57,12 +64,12 @@ class _FormFieldDataState extends State<FormFieldData> {
                   onFieldSubmitted: (value) {
                     FocusScope.of(context).requestFocus(DateFocasNode);
                   },
-                  onSaved: (value) {
-                    editListData = ListModel(
-                        name: value!,
-                        Description: editListData.Description,
-                        job: editListData.job);
-                  },
+                  // onSaved: (value) {
+                  //   editListData = ListModel(
+                  //       name: value!,
+                  //       Description: editListData.Description,
+                  //       job: editListData.job);
+                  // },
                 ),
                 TextFormField(
                   controller: DateController,
@@ -73,10 +80,10 @@ class _FormFieldDataState extends State<FormFieldData> {
                   onFieldSubmitted: (value) {
                     FocusScope.of(context).requestFocus(descriptionFocusNode);
                   },
-                  onSaved: (value){
-                    editListData=ListModel(name: editListData.name, Description: value!, 
-                    job: editListData.job);
-                  },
+                  // onSaved: (value){
+                  //   editListData=ListModel(name: editListData.name, Description: value!, 
+                  //   job: editListData.job);
+                  // },
                 ),
                 TextFormField(
                   controller: DescriptionController,
@@ -87,12 +94,12 @@ class _FormFieldDataState extends State<FormFieldData> {
                   focusNode: descriptionFocusNode,
                   onFieldSubmitted: (value) => saveForm(),
                   onSaved: (value){
-                    editListData=ListModel(name:editListData.name ,
-                     Description: editListData.Description,
-                     job: value! 
-                     );
-                  },
-                )
+                  //   editListData=ListModel(name:editListData.name ,
+                  //    Description: editListData.Description,
+                  //    job: value! 
+                  //    );
+                  // },
+  }),
               ],
             ),
           
@@ -116,3 +123,4 @@ class _FormFieldDataState extends State<FormFieldData> {
     );
   }
 }
+

@@ -1,5 +1,13 @@
+
+
+
+
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
 
 import '../provider/draggableList.dart';
 
@@ -12,16 +20,16 @@ class FormFieldData extends StatefulWidget {
 
 class _FormFieldDataState extends State<FormFieldData> {
   final NameController = TextEditingController();
+  final CategoryController = TextEditingController();
   final DateController = TextEditingController();
-  final DescriptionController = TextEditingController();
-  final DateFocasNode = FocusNode();
-  final descriptionFocusNode = FocusNode();
+  final CategoryfocusNode = FocusNode();
+  final DAtefocusnode = FocusNode();
   final form = GlobalKey<FormState>();
  
   @override
   void dispose() {
-    DateFocasNode.dispose();
-    descriptionFocusNode.dispose();
+    CategoryfocusNode.dispose();
+    DAtefocusnode.dispose();
 
     super.dispose();
   }
@@ -30,10 +38,20 @@ class _FormFieldDataState extends State<FormFieldData> {
     form.currentState!.save();
 
     final name = NameController.text;
-    final des = DescriptionController.text;
-    final job = DateController.text;
+     final  dateTime =DateController.text;
+    final category = CategoryController.text;
     Provider.of<DataProvider>(context, listen: false)
-        .addProduct(name, des, job);
+        .addProduct(name, category,dateTime);
+  }
+   Future<void> Datefunction(BuildContext context,) async {
+    DateTime? picker = await showDatePicker(
+        context: context,
+        initialDate: DateTime(2000),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+        if(picker!=null){
+         DateController.text=DateFormat('yyy-MM-dd').format(picker);
+        }
   }
 
   @override
@@ -53,17 +71,32 @@ class _FormFieldDataState extends State<FormFieldData> {
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(DateFocasNode);
+                  FocusScope.of(context).requestFocus(CategoryfocusNode);
                 },
               ),
               TextFormField(
-                controller: DateController,
-                decoration: const InputDecoration(hintText: 'job'),
-                keyboardType: TextInputType.datetime,
+                controller: CategoryController,
+                decoration: const InputDecoration(hintText: 'Catagory'),
+                keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
-                focusNode: DateFocasNode,
+                focusNode: CategoryfocusNode,
+                
                 onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(descriptionFocusNode);
+                  FocusScope.of(context).requestFocus(DAtefocusnode);
+                },
+              ),
+              
+             
+               TextFormField(
+                controller: DateController,
+                decoration: const InputDecoration(hintText: 'Date',suffixIcon: Icon(Icons.date_range)),
+                onTap: ()=>Datefunction(context),
+                // keyboardType: TextInputType.datetime,
+                // textInputAction: TextInputAction.next,
+                focusNode: DAtefocusnode,
+              
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(DAtefocusnode);
                 },
               ),
             ],

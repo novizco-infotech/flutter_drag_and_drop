@@ -11,10 +11,13 @@ class DraggableList {
 }
 
 class DraggableListItem {
-  final String title;
+  final String name;
   
-  final String job;
+  final String Category;
+   final String dateTime;
   
   
-  DraggableListItem({required this.title, required this.job});
+  DraggableListItem({required this.name, required this.Category,
+   required this.dateTime 
+  });
 }

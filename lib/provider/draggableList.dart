@@ -1,30 +1,32 @@
 import 'package:draganddrop1/model/dragList.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class DataProvider with ChangeNotifier {
   List<DraggableList> allLists = [
     DraggableList(
-      header: 'Category',
+      header: 'ToDo ',
       items: [
-        DraggableListItem(title: 'Adam', job: ' engineer'),
-      ],
+      //   DraggableListItem(
+      //       name: 'Adam',
+      //       Category: ' Flutter devoloper',
+      //       dateTime: DateTime.now().d),
+      // ],
+      ]
     ),
     DraggableList(
-      header: 'Engineers',
+      header: 'onProgress',
       items: [],
     ),
     DraggableList(
-      header: 'Doctors',
+      header: 'Completed',
       items: [],
     ),
   ];
 
-  void addProduct(
-    String name,
-    String description,
-    String job,
-  ) {
-    final product = DraggableListItem(title: name, job: job);
+  void addProduct(String name, String category, String date) {
+    final product =
+        DraggableListItem(name: name, Category: category, dateTime: date);
     allLists[0].items.add(product);
     notifyListeners();
   }
@@ -35,4 +37,6 @@ class DataProvider with ChangeNotifier {
     allLists[newListIndex].items.insert(newItemIndex, movedItem);
     notifyListeners();
   }
+
+ 
 }

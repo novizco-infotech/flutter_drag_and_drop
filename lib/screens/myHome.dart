@@ -1,9 +1,17 @@
+
+
+
+
+
+
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:draganddrop1/model/dragList.dart';
 import 'package:draganddrop1/provider/draggableList.dart';
 
 import 'package:draganddrop1/widgets/form.dart';
 import 'package:flutter/material.dart';
+
+
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -26,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("widget");
+    // print("widget");
 
     return Scaffold(
       backgroundColor: Colors.grey[350],
@@ -43,21 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Consumer<DataProvider>(
         builder: (context, value, child) => DragAndDropLists(
-        
-          listDecorationWhileDragging:const BoxDecoration(
-          color: Colors.white70,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.red,
-              blurRadius: 20
-            )
-          ]
-          ),
+          listDecorationWhileDragging: const BoxDecoration(
+              color: Colors.white70,
+              boxShadow: [BoxShadow(color: Colors.red, blurRadius: 20)]),
           itemDivider: const SizedBox(
             height: 2,
           ),
-          lastItemTargetHeight: 850,
-
+          lastItemTargetHeight: 350,
           axis: Axis.horizontal,
           listPadding: const EdgeInsets.all(16),
           listInnerDecoration: BoxDecoration(
@@ -65,34 +65,35 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.circular(10),
           ),
           children: value.allLists.map(buildList).toList(),
-          itemDraggingWidth: 150,
-
+          itemDraggingWidth: 400,
+          
           itemDecorationWhileDragging: const BoxDecoration(
             color: Colors.white,
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
           ),
-
           onItemReorder: onReorderListItem,
           onListReorder: onReorderList,
-          listWidth: 200,
+          listWidth: 400,
+
+         
+         
+
+          
         ),
       ),
     );
   }
 
   DragAndDropList buildList(DraggableList list) => DragAndDropList(
+// leftSide: Text('data'),
+contentsWhenEmpty:Text(''),
+
+
+  canDrag:false ,
         header: Container(
-          height: 40,
-          width: 150,
-          decoration: BoxDecoration(
-              color: Colors.indigo,
-              boxShadow: const [
-                BoxShadow(
-                    color: Colors.grey, blurRadius: 10, offset: Offset(20, 10))
-              ],
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(width: 1)),
-          padding: const EdgeInsets.all(8),
+
+         
+          padding: const EdgeInsets.all(20),
           child: Center(
             child: Text(
               list.header,
@@ -101,27 +102,35 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         children: list.items
-            .map((item) => DragAndDropItem(
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.all(5),
-                    height: 100,
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 10,
-                              offset: Offset(10, 10))
-                        ],
-                        color: Colors.orange,
-                        border: Border.all(width: 1),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: ListTile(
-                      title: Text(item.title),
-                      subtitle: Text(item.job),
+            .map(
+              (item) => DragAndDropItem(
+                child: Column(
+                  children: [
+                   
+                  
+                   
+                    Container(
+                      // padding: EdgeInsets.all(10),
+                      // height: 80,
+                      // decoration:BoxDecoration(
+                      //   // color: Colors.black
+                      // ) ,
+                      child: Card(
+                        
+                          elevation: 20,
+                          child: ListTile(
+                            title: Text(item.name),
+                             trailing: Text(item.Category),
+                            subtitle: Text(item.dateTime.toString()),
+                           
+                          ),
+                        ),
                     ),
-                  ),
-                ))
+                    
+                  ],
+                ),
+              ),
+            )
             .toList(),
       );
 

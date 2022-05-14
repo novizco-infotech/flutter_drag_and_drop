@@ -1,18 +1,19 @@
 import 'package:draganddrop1/model/dragList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DataProvider with ChangeNotifier {
   List<DraggableList> allLists = [
     DraggableList(
       header: 'ToDo ',
       items: [
-      //   DraggableListItem(
-      //       name: 'Adam',
-      //       Category: ' Flutter devoloper',
-      //       dateTime: DateTime.now().d),
-      // ],
-      ]
+        DraggableListItem(
+            name: 'Adam',
+            Category: ' Flutter devoloper',
+            dateTime: DateFormat('yyy-MM-dd').format(DateTime.now())),
+      ],
+      
     ),
     DraggableList(
       header: 'onProgress',

@@ -1,13 +1,6 @@
-
-
-
-
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 
 import '../provider/draggableList.dart';
 
@@ -25,7 +18,7 @@ class _FormFieldDataState extends State<FormFieldData> {
   final CategoryfocusNode = FocusNode();
   final DAtefocusnode = FocusNode();
   final form = GlobalKey<FormState>();
- 
+
   @override
   void dispose() {
     CategoryfocusNode.dispose();
@@ -35,23 +28,30 @@ class _FormFieldDataState extends State<FormFieldData> {
   }
 
   void saveForm() {
+    final isValid = form.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
     form.currentState!.save();
 
     final name = NameController.text;
-     final  dateTime =DateController.text;
+    final dateTime = DateController.text;
     final category = CategoryController.text;
     Provider.of<DataProvider>(context, listen: false)
-        .addProduct(name, category,dateTime);
+        .addProduct(name, category, dateTime);
   }
-   Future<void> Datefunction(BuildContext context,) async {
+
+  Future<void> Datefunction(
+    BuildContext context,
+  ) async {
     DateTime? picker = await showDatePicker(
         context: context,
-        initialDate: DateTime(2000),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
-        if(picker!=null){
-         DateController.text=DateFormat('yyy-MM-dd').format(picker);
-        }
+        initialDate: DateTime(2022),
+        firstDate: DateTime(2022),
+        lastDate: DateTime(2050));
+    if (picker != null) {
+      DateController.text = DateFormat('yyy-MM-dd').format(picker);
+    }
   }
 
   @override
@@ -66,35 +66,59 @@ class _FormFieldDataState extends State<FormFieldData> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
+                
                 controller: NameController,
-                decoration: const InputDecoration(hintText: 'Enter Name'),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), hintText: 'Enter Name'),
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Name';
+                  }
+                  if (value == null) {
+                    return 'enter';
+                  }
+                  ;
+                },
                 onFieldSubmitted: (value) {
                   FocusScope.of(context).requestFocus(CategoryfocusNode);
                 },
               ),
+              const SizedBox(
+                height: 5,
+              ),
               TextFormField(
                 controller: CategoryController,
-                decoration: const InputDecoration(hintText: 'Catagory'),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), hintText: 'Catagory'),
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
+                  validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter Name';
+                  }
+                  if (value == null) {
+                    return 'enter';
+                  }
+                  ;
+                },
                 focusNode: CategoryfocusNode,
-                
                 onFieldSubmitted: (value) {
                   FocusScope.of(context).requestFocus(DAtefocusnode);
                 },
               ),
-              
-             
-               TextFormField(
+              const SizedBox(
+                height: 5,
+              ),
+              TextFormField(
                 controller: DateController,
-                decoration: const InputDecoration(hintText: 'Date',suffixIcon: Icon(Icons.date_range)),
-                onTap: ()=>Datefunction(context),
-                // keyboardType: TextInputType.datetime,
-                // textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Date',
+                    suffixIcon: Icon(Icons.date_range)),
+                onTap: () => Datefunction(context),
                 focusNode: DAtefocusnode,
-              
                 onFieldSubmitted: (value) {
                   FocusScope.of(context).requestFocus(DAtefocusnode);
                 },

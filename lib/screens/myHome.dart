@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:draganddrop1/model/dragList.dart';
 import 'package:draganddrop1/provider/draggableList.dart';
@@ -11,10 +5,11 @@ import 'package:draganddrop1/provider/draggableList.dart';
 import 'package:draganddrop1/widgets/form.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -39,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.grey[350],
       appBar: AppBar(
+        backgroundColor: Colors.purple,
         actions: [
           IconButton(
               onPressed: () {
@@ -51,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Consumer<DataProvider>(
         builder: (context, value, child) => DragAndDropLists(
+
           listDecorationWhileDragging: const BoxDecoration(
               color: Colors.white70,
               boxShadow: [BoxShadow(color: Colors.red, blurRadius: 20)]),
@@ -66,33 +63,20 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           children: value.allLists.map(buildList).toList(),
           itemDraggingWidth: 400,
+
           
-          itemDecorationWhileDragging: const BoxDecoration(
-            color: Colors.white,
-            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-          ),
           onItemReorder: onReorderListItem,
           onListReorder: onReorderList,
           listWidth: 400,
-
-         
-         
-
-          
         ),
       ),
     );
   }
 
   DragAndDropList buildList(DraggableList list) => DragAndDropList(
-// leftSide: Text('data'),
-contentsWhenEmpty:Text(''),
-
-
-  canDrag:false ,
+        contentsWhenEmpty: Text(''),
+        canDrag: false,
         header: Container(
-
-         
           padding: const EdgeInsets.all(20),
           child: Center(
             child: Text(
@@ -106,27 +90,17 @@ contentsWhenEmpty:Text(''),
               (item) => DragAndDropItem(
                 child: Column(
                   children: [
-                   
-                  
-                   
                     Container(
-                      // padding: EdgeInsets.all(10),
-                      // height: 80,
-                      // decoration:BoxDecoration(
-                      //   // color: Colors.black
-                      // ) ,
+                      padding: EdgeInsets.all(10),
                       child: Card(
-                        
-                          elevation: 20,
-                          child: ListTile(
-                            title: Text(item.name),
-                             trailing: Text(item.Category),
-                            subtitle: Text(item.dateTime.toString()),
-                           
-                          ),
+                        elevation: 20,
+                        child: ListTile(
+                          title: Text(item.name),
+                          trailing: Text(item.Category),
+                          subtitle: Text(item.dateTime.toString()),
                         ),
+                      ),
                     ),
-                    
                   ],
                 ),
               ),

@@ -12,17 +12,18 @@ class FormFieldData extends StatefulWidget {
 }
 
 class _FormFieldDataState extends State<FormFieldData> {
-  final NameController = TextEditingController();
-  final CategoryController = TextEditingController();
-  final DateController = TextEditingController();
-  final CategoryfocusNode = FocusNode();
-  final DAtefocusnode = FocusNode();
+  final nameController = TextEditingController();
+  final categoryController = TextEditingController();
+  final dateController = TextEditingController();
+  final categoryfocusNode = FocusNode();
+  final datefocusnode = FocusNode();
+  final namefocusnode = FocusNode();
   final form = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    CategoryfocusNode.dispose();
-    DAtefocusnode.dispose();
+    categoryfocusNode.dispose();
+    datefocusnode.dispose();
 
     super.dispose();
   }
@@ -34,9 +35,9 @@ class _FormFieldDataState extends State<FormFieldData> {
     }
     form.currentState!.save();
 
-    final name = NameController.text;
-    final dateTime = DateController.text;
-    final category = CategoryController.text;
+    final name = nameController.text;
+    final dateTime = dateController.text;
+    final category = categoryController.text;
     Provider.of<DataProvider>(context, listen: false)
         .addProduct(name, category, dateTime);
   }
@@ -50,7 +51,7 @@ class _FormFieldDataState extends State<FormFieldData> {
         firstDate: DateTime(2022),
         lastDate: DateTime(2050));
     if (picker != null) {
-      DateController.text = DateFormat('yyy-MM-dd').format(picker);
+      dateController.text = DateFormat('yyyy-MM-dd').format(picker);
     }
   }
 
@@ -62,68 +63,22 @@ class _FormFieldDataState extends State<FormFieldData> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: form,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                
-                controller: NameController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Enter Name'),
-                keyboardType: TextInputType.name,
-                textInputAction: TextInputAction.next,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter Name';
-                  }
-                  if (value == null) {
-                    return 'enter';
-                  }
-                  ;
-                },
-                onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(CategoryfocusNode);
-                },
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: CategoryController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Catagory'),
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
-                  validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter Name';
-                  }
-                  if (value == null) {
-                    return 'enter';
-                  }
-                  ;
-                },
-                focusNode: CategoryfocusNode,
-                onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(DAtefocusnode);
-                },
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextFormField(
-                controller: DateController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Date',
-                    suffixIcon: Icon(Icons.date_range)),
-                onTap: () => Datefunction(context),
-                focusNode: DAtefocusnode,
-                onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(DAtefocusnode);
-                },
-              ),
-            ],
+          child: PreferredSize(
+            preferredSize:Size.fromHeight(120.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                namefield(),
+                const SizedBox(
+                  height: 5
+                ),
+                categoryfield(),
+                const SizedBox(
+                  height:5
+                ),
+                datefield()
+              ],
+            ),
           ),
         ),
       ),
@@ -146,6 +101,75 @@ class _FormFieldDataState extends State<FormFieldData> {
             },
             child: const Text('Cancel'))
       ],
+    );
+  }
+
+  Widget namefield() {
+    return TextFormField(
+      controller: nameController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(), hintText: 'Enter Name'),
+      keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.next,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Enter Name';
+        }
+        if (value == null) {
+          return 'enter';
+        }
+        
+      },
+      onFieldSubmitted: (value) {
+        FocusScope.of(context).requestFocus(categoryfocusNode);
+      },
+    );
+  }
+
+  Widget categoryfield() {
+    return TextFormField(
+      controller: categoryController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(), hintText: 'Catagory'),
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Enter category';
+        }
+        if (value == null) {
+          return 'enter';
+        }
+        
+      },
+      focusNode: categoryfocusNode,
+      onFieldSubmitted: (value) {
+        FocusScope.of(context).requestFocus(datefocusnode);
+      },
+    );
+  }
+
+  Widget datefield() {
+    return TextFormField(
+      controller: dateController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Date',
+          suffixIcon: Icon(Icons.date_range)),
+      onTap: () => Datefunction(context),
+      focusNode: datefocusnode,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Enter category';
+        }
+        if (value == null) {
+          return 'enter';
+        }
+        
+      },
+      onFieldSubmitted: (value) {
+        FocusScope.of(context).requestFocus(datefocusnode);
+      },
     );
   }
 }

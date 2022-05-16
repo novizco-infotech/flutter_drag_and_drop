@@ -16,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void openPopUp() =>
-      showDialog(context: context, builder: (_) => FormFieldData());
+      showDialog(context: context, builder: (_) => const FormFieldData());
 
   late List<DragAndDropList> lists;
 
@@ -47,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Consumer<DataProvider>(
         builder: (context, value, child) => DragAndDropLists(
-
           listDecorationWhileDragging: const BoxDecoration(
               color: Colors.white70,
               boxShadow: [BoxShadow(color: Colors.red, blurRadius: 20)]),
@@ -63,8 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           children: value.allLists.map(buildList).toList(),
           itemDraggingWidth: 400,
-
-          
           onItemReorder: onReorderListItem,
           onListReorder: onReorderList,
           listWidth: 400,
@@ -75,8 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   DragAndDropList buildList(DraggableList list) => DragAndDropList(
         contentsWhenEmpty: Text(''),
-        canDrag: false,
+         canDrag: false,
         header: Container(
+        
           padding: const EdgeInsets.all(20),
           child: Center(
             child: Text(
@@ -121,10 +119,5 @@ class _MyHomePageState extends State<MyHomePage> {
   void onReorderList(
     int oldListIndex,
     int newListIndex,
-  ) {
-    setState(() {
-      final movedList = lists.removeAt(oldListIndex);
-      lists.insert(newListIndex, movedList);
-    });
-  }
+  ) {}
 }

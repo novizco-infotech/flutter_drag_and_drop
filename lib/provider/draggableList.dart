@@ -38,6 +38,11 @@ class DataProvider with ChangeNotifier {
     allLists[newListIndex].items.insert(newItemIndex, movedItem);
     notifyListeners();
   }
+  void listItem( int oldListIndex,
+    int newListIndex,){
+       final movedList = allLists.removeAt(oldListIndex);
+      allLists.insert(newListIndex, movedList);
+    }
 
  
 }

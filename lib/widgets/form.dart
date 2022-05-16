@@ -66,7 +66,7 @@ class _FormFieldDataState extends State<FormFieldData> {
           child: PreferredSize(
             preferredSize:const Size.fromHeight(120.0),
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 namefield(),
                 const SizedBox(

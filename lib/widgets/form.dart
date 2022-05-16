@@ -64,7 +64,7 @@ class _FormFieldDataState extends State<FormFieldData> {
         child: Form(
           key: form,
           child: PreferredSize(
-            preferredSize:Size.fromHeight(120.0),
+            preferredSize:const Size.fromHeight(120.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
